@@ -251,6 +251,30 @@ app.put('/todos/:id', function(req, res) {
 
 // });
 
+app.post('/users', function(req, res) {
+	//var body = req.body;
+	var body = _.pick(req.body, 'email', 'password');
+
+	db.user.create(body).then(function(user) {
+		res.json(user.toJSON());
+		//todos.push(todo);
+	}, function(e) {
+		res.status(400).json(e);
+	});
+
+	/*if (!_.isBoolean(body.completed) || (!_.isString(body.description) || body.description.trim().length === 0)) {
+		return res.status(400).send();
+	}
+
+	body.description = body.description.trim();
+
+	body.id = todoNextId++;
+	todos.push(body);
+
+	//console.log(todos[0])
+	res.json(body);*/
+});
+
 db.sequelize.sync().then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port ' + PORT + '!');
